@@ -1,0 +1,59 @@
+branches:
+  main:
+    regex: ^master$|^main$
+    source-branches: []
+    mode: ContinuousDelivery
+    increment: Patch
+    tag: alpha
+    is-mainline: true
+  feature:
+    regex: ^feature?[/-]
+    source-branches: ["master", "main", "develop"]
+    mode: ContinuousDeployment
+    tag: useBranchName
+    increment: Inherit
+    prevent-increment-of-merged-branch-version: false
+    track-merge-target: false
+    tracks-release-branches: false
+    is-release-branch: false
+  fix:
+    regex: ^fix?[/-]
+    source-branches: ["master", "main", "develop"]
+    mode: ContinuousDeployment
+    tag: useBranchName
+    increment: Inherit
+    prevent-increment-of-merged-branch-version: false
+    track-merge-target: false
+    tracks-release-branches: false
+    is-release-branch: false
+  release:
+    regex: ^release?[/-]
+    source-branches: ["develop"]
+    mode: ContinuousDeployment
+    tag: rc
+    increment: Minor
+    prevent-increment-of-merged-branch-version: true
+    track-merge-target: false
+    tracks-release-branches: false
+    is-release-branch: true
+  hotfix:
+    regex: ^hotfix?[/-]
+    source-branches: ["master", "main"]
+    mode: ContinuousDeployment
+    tag: hotfix
+    increment: Patch
+  develop:
+    regex: ^develop$
+    source-branches: ["master", "main"]
+    mode: ContinuousDeployment
+    tag: develop
+    increment: Minor
+    prevent-increment-of-merged-branch-version: false
+    track-merge-target: true
+    tracks-release-branches: true
+    is-release-branch: false
+    is-mainline: false
+
+ignore:
+  sha: []
+merge-message-formats: {}

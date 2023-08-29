@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pippin", "Pippin\Pippin.csproj", "{BA5A986C-04FE-4807-8691-F6A8695E3083}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pippin.Tests", "Pippin.Tests\Pippin.Tests.csproj", "{9862CF81-8E9D-4EB7-8DAF-966DC12F966D}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pippin.Build", "..\build\Pippin.Build.csproj", "{9B0E27B0-4460-4E6C-AE76-770A250C6915}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9B0E27B0-4460-4E6C-AE76-770A250C6915}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9B0E27B0-4460-4E6C-AE76-770A250C6915}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BA5A986C-04FE-4807-8691-F6A8695E3083}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BA5A986C-04FE-4807-8691-F6A8695E3083}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BA5A986C-04FE-4807-8691-F6A8695E3083}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BA5A986C-04FE-4807-8691-F6A8695E3083}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9862CF81-8E9D-4EB7-8DAF-966DC12F966D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9862CF81-8E9D-4EB7-8DAF-966DC12F966D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9862CF81-8E9D-4EB7-8DAF-966DC12F966D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9862CF81-8E9D-4EB7-8DAF-966DC12F966D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

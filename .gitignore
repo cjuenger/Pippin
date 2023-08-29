@@ -1,0 +1,29 @@
+# --- files ---
+# general file-types
+*.db
+*.obj
+*.exe
+*.pdb
+*.user
+*.aps
+*.pch
+*.vspscc
+*_i.c
+*_p.c
+*.ncb
+*.tlb
+*.tlh
+*.bak
+*.cache
+*.ilk
+*.log
+*.dll
+*.bin
+*.ncrunchproject
+src/Pippin/obj/
+src/Pippin/bin/
+src/Pippin.Tests/obj/
+src/Pippin.Tests/bin/
+build/obj/
+build/bin
+src/.idea/
