@@ -8,8 +8,14 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <Content Include="..\..\.github\workflows\test.yml">
+        <Link>Solution Items\Workflows\test.yml</Link>
+      </Content>
       <Content Include="..\..\.gitignore">
         <Link>Solution Items\.gitignore</Link>
+      </Content>
+      <Content Include="..\..\.nuke\parameters.json">
+        <Link>Solution Items\parameters.json</Link>
       </Content>
       <Content Include="..\..\Changelog.md">
         <Link>Solution Items\Changelog.md</Link>

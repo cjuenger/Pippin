@@ -1,0 +1,18 @@
+name: test
+run-name: ${{ github.actor }} triggered testing workflow
+on: [push, pull_request]
+
+jobs:
+  test:
+    name: Build And Test
+    runs-on: windows-2019
+    steps:
+      - uses: actions/checkout@v2
+      # Additional fetch to get all commits and tags
+      - run: git fetch --unshallow
+      - name: Setup .NET Core
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 6.0.x
+      - name: Run Build and Test using Nuke
+        run: ./build.ps1 -Target Test -Configuration Release
