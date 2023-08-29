@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Pippin.Sequences
 {
@@ -6,6 +7,9 @@ namespace Pippin.Sequences
     /// A single wrapper block of a cohesive sequence.
     /// </summary>
     /// <typeparam name="TPayload">Type of the payload data</typeparam>
+    [ExcludeFromCodeCoverage]
+    [SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
+    [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Global")]
     public class SequenceBlock<TPayload>
     {
         /// <summary>
@@ -29,7 +33,7 @@ namespace Pippin.Sequences
         /// <param name="uniqueSequenceId">Unique ID of a cohesive sequence</param>
         /// <param name="serialNumber">Consecutive serial number of single sequence block</param>
         /// <param name="payload">The actual payload of the sequence block</param>
-        /// <exception cref="ArgumentNullException">The argument <see cref="payload"/> is null</exception>
+        /// <exception cref="ArgumentNullException">The argument 'payload' is null</exception>
         public SequenceBlock(Guid uniqueSequenceId, long serialNumber, TPayload payload)
         {
             UniqueSequenceId = uniqueSequenceId;

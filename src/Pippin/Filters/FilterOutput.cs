@@ -16,10 +16,10 @@ namespace Pippin.Filters
         }
         
         /// <summary>
-        ///     Output to all chained filters
+        /// Output to all chained filters
         /// </summary>
         /// <param name="output">Output data</param>
-        /// <exception cref="ArgumentNullException">The passed <see cref="output"/> is null.</exception>
+        /// <exception cref="ArgumentNullException">The passed argument 'output' is null.</exception>
         protected void Output(TOutput output)
         {
             if (output == null) throw new ArgumentNullException(nameof(output));

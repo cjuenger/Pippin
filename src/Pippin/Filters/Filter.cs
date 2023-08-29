@@ -1,4 +1,6 @@
-﻿namespace Pippin.Filters
+﻿using System;
+
+namespace Pippin.Filters
 {
     /// <summary>
     /// A filter that has input and output.
@@ -10,6 +12,7 @@
         /// <inheritdoc />
         public void Input(TInput input)
         {
+            if (input == null) throw new ArgumentNullException(nameof(input));
             var output = Filtrate(input);
             Output(output);
         }

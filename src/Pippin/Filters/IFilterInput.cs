@@ -1,5 +1,11 @@
 namespace Pippin.Filters
 {
+    /// <summary>
+    /// Filter part that has no output but only input.
+    /// It is part of a <see cref="Filter{TInput,TOutput}"/> but can also be used
+    /// as the endpoint of a pipe.
+    /// </summary>
+    /// <typeparam name="TInput"></typeparam>
     public interface IFilterInput<in TInput>
     {
         /// <summary>
