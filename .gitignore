@@ -22,4 +22,6 @@
 *.ncrunchproject
 src/Pippin/obj/
 src/Pippin/bin/
+src/Pippin.Tests/obj/
+src/Pippin.Tests/bin/
 src/.idea/
