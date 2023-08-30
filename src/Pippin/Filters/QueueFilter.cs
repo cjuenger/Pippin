@@ -1,64 +1,42 @@
 ﻿using System;
-using System.Collections.Concurrent;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
+using Pippin.Processors;
 
 namespace Pippin.Filters
 {
     /// <summary>
-    /// A thread-safe concurrent filter that queues the input within a <see cref="ConcurrentQueue{T}"/> and
-    /// processes these queued input items on a background thread.
+    /// A thread-safe filter that queues the input within a <see cref="IQueueProcessor{TItem}"/> which
+    /// processes the queued input items on a background thread.
     /// </summary>
     /// <typeparam name="TInput">Type of the input</typeparam>
     /// <typeparam name="TOutput">Type of the output</typeparam>
     public abstract class QueueFilter<TInput, TOutput> : Filter<TInput, TOutput>, IDisposable
     {
-        private readonly ConcurrentQueue<TInput> _queue = new ConcurrentQueue<TInput>();
-        private readonly SemaphoreSlim _queueSemaphore = new SemaphoreSlim(0);
-        private readonly CancellationTokenSource _cancellationTokenSource = new CancellationTokenSource();
-        private Exception? _exception;
-
+        private readonly IQueueProcessor<TInput> _queueProcessor;
+        
         /// <summary>
-        /// 
+        /// Creates an instance of <see cref="QueueFilter{TInput,TOutput}"/>
         /// </summary>
-        protected QueueFilter()
+        /// <param name="processorFactory">Factory used to create instance of <see cref="IQueueProcessor{TItem}"/></param>
+        protected QueueFilter(IProcessorFactory? processorFactory)
         {
-            Task.Factory.StartNew(() => Dequeue(_cancellationTokenSource.Token));
+            processorFactory ??= new ProcessorFactory();
+            _queueProcessor = processorFactory.CreateQueueProcessor<TInput>(ProcessDequeuedItem);
         }
         
         /// <inheritdoc />
         public override void Input(TInput input)
         {
             if (input == null) throw new ArgumentNullException(nameof(input));
-            Enqueue(input);
+            _queueProcessor.Enqueue(input);
         }
-        
-        private void Enqueue(TInput item)
+
+        private void ProcessDequeuedItem(TInput input)
         {
-            if (_exception != null) throw _exception;
-            _queue.Enqueue(item);
-            _queueSemaphore.Release();
-        }
-        
-        private void Dequeue(CancellationToken cancellationToken)
-        {
-            try
+            foreach (var output in PipePlugs.Select(pipePlug => Process(input)))
             {
-                while (true)
-                {
-                    _queueSemaphore.Wait(cancellationToken);
-                    if (!_queue.TryDequeue(out var input)) continue;
-                    foreach (var output in Filters.Select(filterInput => Filtrate(input)))
-                    {
-                        Output(output);
-                    }
-                }
-            }
-            catch (Exception exception)
-            {
-                _exception = exception;
+                Output(output);
             }
         }
         
@@ -66,8 +44,7 @@ namespace Pippin.Filters
         [ExcludeFromCodeCoverage]
         public void Dispose()
         {
-            _queueSemaphore.Dispose();
-            _cancellationTokenSource.Dispose();
+            _queueProcessor.Dispose();
         }
     }
 }

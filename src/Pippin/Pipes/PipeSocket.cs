@@ -1,18 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Pippin.Filters
+namespace Pippin.Pipes
 {
     /// <inheritdoc />
-    public abstract class FilterOutput<TOutput> : IFilterOutput<TOutput>
+    public abstract class PipeSocket<TOutput> : IPipeSocket<TOutput>
     {
-        private readonly List<IFilterInput<TOutput>> _filters = new List<IFilterInput<TOutput>>();
+        private readonly List<IPipePlug<TOutput>> _pipePlugs = new List<IPipePlug<TOutput>>();
 
         /// <inheritdoc />
-        public void ChainFilter(IFilterInput<TOutput> filter)
+        public void Connect(IPipePlug<TOutput> plug)
         {
-            if (filter == null) throw new ArgumentNullException(nameof(filter));
-            _filters.Add(filter);
+            if (plug == null) throw new ArgumentNullException(nameof(plug));
+            _pipePlugs.Add(plug);
         }
         
         /// <summary>
@@ -20,10 +20,10 @@ namespace Pippin.Filters
         /// </summary>
         /// <param name="output">Output data</param>
         /// <exception cref="ArgumentNullException">The passed argument 'output' is null.</exception>
-        protected void Output(TOutput output)
+        protected virtual void Output(TOutput output)
         {
             if (output == null) throw new ArgumentNullException(nameof(output));
-            foreach (var filter in _filters) filter.Input(output);
+            foreach (var pipePlug in _pipePlugs) pipePlug.Input(output);
         }
     }
 }

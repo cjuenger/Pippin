@@ -24,7 +24,7 @@ public class FilterTests
         var filter = Substitute.For<IFilter<object, object>>();
         const int input = 1987;
         
-        sut.ChainFilter(filter);
+        sut.Connect(filter);
         
         sut.Input(input);
         
@@ -33,6 +33,6 @@ public class FilterTests
     
     private class ConcreteFilter : Filter<object, object>
     {
-        protected override object Filtrate(object input) => input;
+        protected override object Process(object input) => input;
     }
 }

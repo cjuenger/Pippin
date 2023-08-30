@@ -1,50 +1,48 @@
 ﻿using System;
 using System.Collections.Generic;
+using Pippin.Pipes;
 
 namespace Pippin.Filters
 {
-    /// <summary>
-    /// A filter that has input and output.
-    /// </summary>
-    /// <typeparam name="TInput">Type of the input</typeparam>
-    /// <typeparam name="TOutput">Type of the output</typeparam>
+    /// <inheritdoc />
     public abstract class Filter<TInput, TOutput> : IFilter<TInput, TOutput>
     {
-        protected readonly List<IFilterInput<TOutput>> Filters = new List<IFilterInput<TOutput>>();
+        /// <summary>
+        /// List of connected <see cref="IPipePlug{TInput}"/> plugs
+        /// </summary>
+        protected readonly List<IPipePlug<TOutput>> PipePlugs = new List<IPipePlug<TOutput>>();
 
         /// <inheritdoc />
-        public void ChainFilter(IFilterInput<TOutput> filter)
+        public void Connect(IPipePlug<TOutput> plug)
         {
-            if (filter == null) throw new ArgumentNullException(nameof(filter));
-            Filters.Add(filter);
+            if (plug == null) throw new ArgumentNullException(nameof(plug));
+            PipePlugs.Add(plug);
         }
         
         /// <inheritdoc />
         public virtual void Input(TInput input)
         {
             if (input == null) throw new ArgumentNullException(nameof(input));
-            var output = Filtrate(input);
+            var output = Process(input);
             Output(output);
         }
 
         /// <summary>
-        /// Contract for the filtration
-        /// The term 'Filtrate' is chosen to be close to the context of filtering.
-        /// It should implement the processing that shall be performed on the input.
+        /// Contract for the filtration process
         /// </summary>
         /// <param name="input">Input data</param>
         /// <returns>Returns the filtered/processed output</returns>
-        protected abstract TOutput Filtrate(TInput input);
+        protected abstract TOutput Process(TInput input);
         
         /// <summary>
-        /// Output to all chained filters
+        /// Output to all connected <see cref="PipePlug{TInput}"/>
         /// </summary>
         /// <param name="output">Output data</param>
         /// <exception cref="ArgumentNullException">The passed argument 'output' is null.</exception>
         protected void Output(TOutput output)
         {
             if (output == null) throw new ArgumentNullException(nameof(output));
-            foreach (var filter in Filters) filter.Input(output);
+            foreach (var pipePlug in PipePlugs) pipePlug.Input(output);
         }
     }
 }
