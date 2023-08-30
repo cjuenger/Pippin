@@ -38,7 +38,7 @@ namespace Pippin.Sequences
         {
             UniqueSequenceId = uniqueSequenceId;
             SerialNumber = serialNumber;
-            Payload = payload ?? throw new ArgumentNullException(nameof(payload));
+            Payload = payload;
         }
     }
 }

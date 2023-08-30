@@ -19,9 +19,9 @@ namespace Pippin.Filters
         /// Creates an instance of <see cref="QueueFilter{TInput,TOutput}"/>
         /// </summary>
         /// <param name="processorFactory">Factory used to create instance of <see cref="IQueueProcessor{TItem}"/></param>
-        protected QueueFilter(IProcessorFactory? processorFactory)
+        protected QueueFilter(IProcessorFactory processorFactory)
         {
-            processorFactory ??= new ProcessorFactory();
+            processorFactory = processorFactory ?? new ProcessorFactory();
             _queueProcessor = processorFactory.CreateQueueProcessor<TInput>(ProcessDequeuedItem);
         }
         
