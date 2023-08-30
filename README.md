@@ -10,7 +10,6 @@ I've not yet run any performance tests.
 ## 💻 Usage
 
 ```mermaid
-%%{init: {"flowchart": {"htmlLabels": false}} }%%
 flowchart LR
     pipe_socket["PipeSocket"]
     filter1["Filter A"]
