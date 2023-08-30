@@ -25,7 +25,7 @@ flowchart LR
     filter2 --> pipe_plug
 ```
 
-Pippin also provides special filters, sockets and plugs, which allow queueing and processing on background threads.
+Pippin also provides special filters, sockets and plugs, which allow queueing and processing passed items on background threads.
 These classes are `QueuePipeSocket`, `QueueFilter` and `QueuePipePlug`.
 
 ## ⌨️ Developing
