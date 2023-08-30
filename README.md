@@ -12,11 +12,13 @@ I've not yet run any performance tests.
 ```mermaid
 %%{init: {"flowchart": {"htmlLabels": false}} }%%
 flowchart LR
-    markdown["`This **is** _Markdown_`"]
-    newLines["`Line1
-    Line 2
-    Line 3`"]
-    markdown --> newLines
+    pipe_socket["PipeSocket"]
+    filter1["Filter A"]
+    filter2["Filter B"]
+    pipe_plug["PipePlug"]
+    pipe_socket --> filter1
+    filter1 --> filter2
+    filter2 --> pipe_plug
 ```
 
 ## ⌨️ Developing
