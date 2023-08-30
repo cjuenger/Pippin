@@ -1,7 +1,7 @@
 ﻿using FluentAssertions;
 using Pippin.Processors;
 
-namespace Pippin.Tests.Filters;
+namespace Pippin.Tests.Processors;
 
 public class QueueProcessorTests
 {
