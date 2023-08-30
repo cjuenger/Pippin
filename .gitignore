@@ -20,3 +20,10 @@
 *.dll
 *.bin
 *.ncrunchproject
+src/Pippin/obj/
+src/Pippin/bin/
+src/Pippin.Tests/obj/
+src/Pippin.Tests/bin/
+build/obj/
+build/bin
+src/.idea/
