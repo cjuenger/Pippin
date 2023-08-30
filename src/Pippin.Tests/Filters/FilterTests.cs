@@ -1,16 +1,39 @@
 ﻿using FluentAssertions;
 using NSubstitute;
 using Pippin.Filters;
+using Pippin.Pipes;
 
 namespace Pippin.Tests.Filters;
 
 public class FilterTests
 {
     [Test]
+    public void Throw_ArgumentNullException_When_Plug_Is_Null()
+    {
+        var sut = new ConcreteFilter();
+        IPipePlug<object>? plug = null;
+        
+        var act = () => sut.Connect(plug!);
+
+        act.Should().Throw<ArgumentNullException>();
+    }
+        
+    [Test]
     public void Throw_ArgumentNullException_When_Input_Is_Null()
     {
         var sut = new ConcreteFilter();
         object input = null!;
+        
+        var act = () => sut.Input(input);
+
+        act.Should().Throw<ArgumentNullException>();
+    }
+    
+    [Test]
+    public void Throw_ArgumentNullException_When_Output_Is_Null()
+    {
+        var sut = new ConcreteFilter(true);
+        var input = new object();
         
         var act = () => sut.Input(input);
 
@@ -33,6 +56,13 @@ public class FilterTests
     
     private class ConcreteFilter : Filter<object, object>
     {
-        protected override object Process(object input) => input;
+        private readonly bool _processShouldReturnNull;
+
+        public ConcreteFilter(bool processShouldReturnNull = false)
+        {
+            _processShouldReturnNull = processShouldReturnNull;
+        }
+        
+        protected override object Process(object input) => _processShouldReturnNull ? null! : input;
     }
 }
