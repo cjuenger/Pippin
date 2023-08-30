@@ -9,6 +9,11 @@ I've not yet run any performance tests.
 
 ## 💻 Usage
 
+Pippin provides several abstract classes which allow to establish pipes with chained filters.
+You just need to inherit from these abstract classes and establishing a filter pipe, beginning at a 
+`PipeSocket`, followed by a `Filter` and terminated by a `PipePlug`. 
+The diagram below shows an exemplary setup.
+
 ```mermaid
 flowchart LR
     pipe_socket["PipeSocket"]
@@ -19,6 +24,9 @@ flowchart LR
     filter1 --> filter2
     filter2 --> pipe_plug
 ```
+
+Pippin also provides special filters, sockets and plugs, which allow queueing and processing on background threads.
+These classes are `QueuePipeSocket`, `QueueFilter` and `QueuePipePlug`.
 
 ## ⌨️ Developing
 
