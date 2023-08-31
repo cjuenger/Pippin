@@ -4,6 +4,17 @@
         <TargetFramework>netstandard2.0</TargetFramework>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
         <DocumentationFile>bin\Pipin.XML</DocumentationFile>
+        
+        <PackageId>Pippin</PackageId>
+        <Authors>Christian Jünger</Authors>
+        <RepositoryUrl>https://github.com/cjuenger/Pippin</RepositoryUrl>
+        <Description>
+            Pippin is a reference architecture for the pattern "Pipes and Filters". 
+            Pips is a short version of the name "Pippin" (Perigrin Tuk) and sounds a bit like pipes. 
+            That's why this project is called "Pippin".
+        </Description>
+        <PackageTags>architecture pipe pipes filter filters</PackageTags>
+        
     </PropertyGroup>
 
     <ItemGroup>

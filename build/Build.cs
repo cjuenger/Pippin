@@ -1,3 +1,5 @@
+using System.Linq;
+using JetBrains.Annotations;
 using Nuke.Common;
 using Nuke.Common.IO;
 using Nuke.Common.ProjectModel;
@@ -8,30 +10,29 @@ using static Nuke.Common.Tools.DotNet.DotNetTasks;
 
 class Build : NukeBuild
 {
-    /// Support plugins are available for:
-    ///   - JetBrains ReSharper        https://nuke.build/resharper
-    ///   - JetBrains Rider            https://nuke.build/rider
-    ///   - Microsoft VisualStudio     https://nuke.build/visualstudio
-    ///   - Microsoft VSCode           https://nuke.build/vscode
+    const string NuGetSource = "https://api.nuget.org/v3/index.json";
 
     public static int Main () => Execute<Build>(x => x.Test);
 
     [Parameter("Configuration to build - Default is 'Debug' (local) or 'Release' (server)")]
     readonly Configuration Configuration = IsLocalBuild ? Configuration.Debug : Configuration.Release;
     
+    [Parameter("NuGet API Key", Name = "NUGET_API_KEY_PIPPIN")] 
+    [CanBeNull] readonly string NuGetApiKey;
+    
     [GitVersion] readonly GitVersion GitVersion;
     [Solution] readonly Solution Solution;
-    
-    AbsolutePath SourceDirectory => RootDirectory / "src";
 
-    AbsolutePath BuildDirectory => RootDirectory / "build";
+    static AbsolutePath SourceDirectory => RootDirectory / "src";
+    static AbsolutePath OutputDirectory => RootDirectory / "build";
+    static AbsolutePath PackageOutputDirectory => OutputDirectory / "packages";
     
     Target Clean => _ => _
         .Before(Restore)
         .Executes(() =>
         {
             SourceDirectory.GlobDirectories("**/{obj,bin}").DeleteDirectories();
-            BuildDirectory.GlobDirectories("**/.output").DeleteDirectories();
+            OutputDirectory.GlobDirectories("**/.output").DeleteDirectories();
         });
 
     Target Restore => _ => _
@@ -68,6 +69,52 @@ class Build : NukeBuild
                 .SetProjectFile(Solution)
                 .EnableNoRestore()
                 .EnableNoBuild());
+        });
+    
+    Target Pack => _ => _
+        .DependsOn(Test)
+        .Executes(() =>
+        {
+            var packableProjects = Solution?
+                .AllProjects
+                .Where(project => project.GetProperty<bool>("IsPackable")) ?? Enumerable.Empty<Project>();
+
+            foreach (var project in packableProjects)
+            {
+                Log.Information("Packaging project '{ProjectName}'...", project.Name);
+                
+                DotNetPack(settings => settings
+                    .SetProject(project)
+                    .SetOutputDirectory(PackageOutputDirectory)
+                    .SetConfiguration(Configuration)
+                    .EnableNoBuild()
+                    .EnableNoRestore()
+                    .SetVersion(GitVersion?.NuGetVersionV2)
+                    .SetAssemblyVersion(GitVersion?.AssemblySemVer)
+                    .SetFileVersion(GitVersion?.AssemblySemFileVer)
+                    .SetInformationalVersion(GitVersion?.InformationalVersion));
+            }
+        });
+    
+    // ReSharper disable once UnusedMember.Local
+    Target Publish => _ => _
+        .DependsOn(Pack)
+        .Requires(() => !string.IsNullOrWhiteSpace(NuGetApiKey))
+        .Executes(() =>
+        {
+            var packageFiles = PackageOutputDirectory.GlobFiles("*.nupkg");
+
+            foreach (var packageFile in packageFiles)
+            {
+                Log.Information("Pushing '{PackageName}'...", packageFile.Name);
+                
+                DotNetNuGetPush(settings => settings
+                    .SetApiKey(NuGetApiKey)
+                    .SetSymbolApiKey(NuGetApiKey)
+                    .SetTargetPath(packageFile)
+                    .SetSource(NuGetSource)
+                    .SetSymbolSource(NuGetSource));
+            }
         });
 
 }
