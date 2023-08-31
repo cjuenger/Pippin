@@ -6,6 +6,19 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pippin.Tests", "Pippin.Test
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pippin.Build", "..\build\Pippin.Build.csproj", "{9B0E27B0-4460-4E6C-AE76-770A250C6915}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{3DABC99D-13EE-476D-AAD8-FD36646CB4FE}"
+	ProjectSection(SolutionItems) = preProject
+		..\.gitignore = ..\.gitignore
+		..\Changelog.md = ..\Changelog.md
+		..\README.md = ..\README.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Workflows", "Workflows", "{B63AFCB3-91F0-4BA1-9422-BEAABBB919F5}"
+	ProjectSection(SolutionItems) = preProject
+		..\.github\workflows\publish-nuget.yaml = ..\.github\workflows\publish-nuget.yaml
+		..\.github\workflows\test.yml = ..\.github\workflows\test.yml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -22,5 +35,8 @@ Global
 		{9862CF81-8E9D-4EB7-8DAF-966DC12F966D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9862CF81-8E9D-4EB7-8DAF-966DC12F966D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9862CF81-8E9D-4EB7-8DAF-966DC12F966D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{B63AFCB3-91F0-4BA1-9422-BEAABBB919F5} = {3DABC99D-13EE-476D-AAD8-FD36646CB4FE}
 	EndGlobalSection
 EndGlobal
