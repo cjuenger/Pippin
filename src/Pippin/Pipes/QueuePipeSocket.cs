@@ -15,9 +15,9 @@ namespace Pippin.Pipes
         /// <summary>
         /// 
         /// </summary>
-        protected QueuePipeSocket(IProcessorFactory? processorFactory)
+        protected QueuePipeSocket(IProcessorFactory processorFactory)
         {
-            processorFactory ??= new ProcessorFactory();
+            processorFactory = processorFactory ?? new ProcessorFactory();
             _queueProcessor = processorFactory.CreateQueueProcessor<TOutput>(base.Output);
         }
         

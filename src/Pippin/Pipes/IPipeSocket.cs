@@ -10,6 +10,6 @@
         /// Connects a plug with this socket.
         /// </summary>
         /// <param name="plug">A plug to be connected to this socket</param>
-        public void Connect(IPipePlug<TOutput> plug);
+        void Connect(IPipePlug<TOutput> plug);
     }
 }

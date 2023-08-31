@@ -15,6 +15,6 @@ namespace Pippin.Sequences
         /// </summary>
         /// <param name="payload">The sequence block payload.</param>
         /// <returns></returns>
-        SequenceBlock<TPayload> Build([DisallowNull] TPayload payload);
+        SequenceBlock<TPayload> Build(TPayload payload);
     }
 }

@@ -16,9 +16,9 @@ namespace Pippin.Pipes
         /// Creates an instance of <see cref="QueuePipePlug{TInput}"/>
         /// </summary>
         /// <param name="processorFactory">Factory used to create instance of <see cref="IQueueProcessor{TItem}"/></param>
-        protected QueuePipePlug(IProcessorFactory? processorFactory)
+        protected QueuePipePlug(IProcessorFactory processorFactory)
         {
-            processorFactory ??= new ProcessorFactory();
+            processorFactory = processorFactory ?? new ProcessorFactory();
             _queueProcessor = processorFactory.CreateQueueProcessor<TInput>(ProcessInput);
         }
 

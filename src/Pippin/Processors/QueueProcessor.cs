@@ -12,7 +12,7 @@ namespace Pippin.Processors
         private readonly ConcurrentQueue<TItem> _queue = new ConcurrentQueue<TItem>();
         private readonly SemaphoreSlim _queueSemaphore = new SemaphoreSlim(0);
         private readonly CancellationTokenSource _cancellationTokenSource = new CancellationTokenSource();
-        private Exception? _exception;
+        private Exception _exception;
         private readonly Action<TItem> _process;
 
         /// <summary>
